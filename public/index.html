@@ -1,0 +1,111 @@
+helo ther.
+
+<script src="/vendor/jquery.min.js" type="text/javascript" language="javascript" charset="utf-8"></script>
+<script src="/vendor/pushstream.js" type="text/javascript" language="javascript" charset="utf-8"></script>
+<script src="/vendor/jquery.dnd-file-upload.js" type="text/javascript" language="javascript" charset="utf-8"></script>
+<script src="/vendor/jquery.client.js" type="text/javascript" language="javascript" charset="utf-8"></script>
+<script src="/vendor/jquery.progressbar.js" type="text/javascript" language="javascript" charset="utf-8"></script>
+<script>
+
+    PushStream.LOG_LEVEL = 'error';
+    var pushstream = new PushStream({
+      host: window.location.hostname,
+      port: window.location.port,
+//	modes: "websockets|eventsource|stream",
+	modes: "eventsource|longpolling",
+    });
+    pushstream.onrawmessage = function(event) {
+	console.log(event);
+	$('#log').append('<b>' + event.message + '</b> ' +  JSON.stringify(event) + '<br>')
+    }
+    pushstream.onstatuschange = _statuschanged;
+    function _statuschanged(state) {
+    };
+
+    function _connect(channel) {
+      pushstream.removeAllChannels();
+      try {
+        pushstream.addChannel(channel);
+        pushstream.connect();
+      } catch(e) {alert(e)};
+    }
+</script>
+
+<div id="drop-div" class="active">Drop a PDF or Keynote file here! <div id="document"></div><div id="drop-info"></div></div>
+
+<input type=button name=newjob value=newjob id=newjob />
+
+<script>
+function guidGenerator() {
+    var S4 = function() {
+       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    };
+    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+}
+
+
+$(function() {
+	var ref = guidGenerator()
+	console.log("ref: " + ref)
+	var type = 'reverse';
+	_connect(ref)
+	$('#newjob').on('click',function() {
+  	  $.ajax({
+	    url:'/ajaxnew.php',
+	    type:'POST',
+	    data:{ref:ref,type:type},
+	    success:function(data) { console.log('ajax-success');console.log(data); },
+	    error:function(data) { console.log('ajax-error');console.log(data); },
+  	   })
+	})
+})
+
+</script>
+
+
+
+
+
+
+ <script>
+$.fn.dropzone.uploadStarted = function(fileIndex, file) {
+	// upload of file with given index has started
+	$('#drop-div').removeClass('active')
+	$('#drop-info').html('uploading ' + escape(file.name) + '<div><div id="progressbar"></div></div>')
+	$('#progressbar').reportprogress(0);
+}
+$.fn.dropzone.uploadFinished = function(fileIndex, file, time) {
+    // upload of file with given index has finished; upload took *time* mili seconds
+	$('#drop-div').addClass('active')
+	$('#drop-info').html('uploaded ' + escape(file.name))
+	var doc = $('#document')
+	var position = doc.offset()
+	doc.css({position:'absolute',left:position.left+'px',top:position.top+'px'})
+
+	doc.animate({opacity:1,left:document.width/2,top:document.height/2,border:'5px solid white',width:'25%',height:'25%'},250,'linear',function() {
+		doc.animate({'border-width':'10px',left:'30px',top:'30px',width:'90%',height:'90%'},150,'linear',function() {
+
+		})
+	})
+}
+$.fn.dropzone.fileUploadProgressUpdated = function(fileIndex, file, newProgress) {
+	// progress of given file has changed to *newProgress* percent
+	$('#progressbar').reportprogress(newProgress);
+}
+$.fn.dropzone.uploadResponse = function(xhr) {
+	console.log(xhr.response)
+	var response = jQuery.parseJSON(xhr.response)
+	$('#document').html('<iframe width="100%" height="100%" src="' + response.pollurl + '"></iframe>')
+}
+
+
+$(document).ready(function(){
+	$("#drop-div").dropzone(
+		{
+			url : '/ui/raw_upload',
+		}
+	);
+});
+</script>
+
+<div id="log"></div>
