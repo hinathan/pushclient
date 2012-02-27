@@ -15,7 +15,7 @@ if(count($_FILES)) {
     exit;
   }
   chmod($tmp,0777);
-  rename($tmp,__DIR__ .'/outputs/' . preg_replace('/[^\w\d\._-]/','',basename($_GET['ref'])) .".". intval(1000*microtime(true))."." .basename($_FILES['file']['name']));
+  rename($tmp,__DIR__ .'/output/' . preg_replace('/[^\w\d\._-]/','',basename($_GET['ref'])) .".". intval(1000*microtime(true))."." .basename($_FILES['file']['name']));
   print "saved $tmp at " . basename($_FILES['file']['name']) . "\n";
   print 'OK';
  } else {

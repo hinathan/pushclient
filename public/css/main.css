@@ -1,0 +1,69 @@
+
+#log {
+	padding:4;
+	margin:0;
+	height:200px;
+	width:100%;
+	background-color:#DBDBDB;
+	border:1px solid blue;
+	overflow:scroll;
+}
+
+#drop-div {
+	width: 200px;
+	border: 2px dotted black;
+	background-color: rgba(255,127,255,.5);
+	color: black;
+	text-align: center;
+	padding: 10px 0;
+	border-radius: 5px;
+	font-size: 80%;
+}
+#drop-div.droppable {
+	background-color: red;
+
+}
+#drop-div.hovered {
+	background-color: green;
+}
+
+/* progress bar container */
+#progressbar {
+	border: 1px solid black;
+	width: 100%;
+/*	margin: 0px 20px;*/
+	height: 20px;
+	position: relative;
+	color: black;
+	text-align:center;
+}
+/* color bar */
+#progressbar div.progress {
+	position: absolute;
+	width: 0;
+	height: 100%;
+	overflow: hidden;
+	background-color: #7F007F;
+}
+/* text on bar */
+#progressbar div.progress .text {
+	position: absolute;
+	text-align: center;
+	color: white;
+}
+/* text off bar */
+#progressbar div.text {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+}
+
+#document {
+	height:18px;
+	width:32px;
+	border:3px solid black;
+	background-color:white;
+	color:black;
+	opacity:0;
+}
