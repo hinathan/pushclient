@@ -5,6 +5,8 @@ if(isset($_GET['ref']) && isset($_POST['message'])) {
   $to = __DIR__ . '/logs/' . intval(1000*microtime(true)) . '.progress';
   $json = stripslashes($_POST['message']);
   $info = json_decode($json,true);
+  $info['ts'] = microtime(true);
+  $json = json_encode($info);
   $ch = curl_init("http://push.lensu.com/pub?id=" . $ref);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1 );
   curl_setopt($ch, CURLOPT_POST,           1 );

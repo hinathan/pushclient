@@ -7,6 +7,8 @@
 	background-color:#DBDBDB;
 	border:1px solid blue;
 	overflow:scroll;
+        font-family: Courier;
+        font-size: 11px;
 }
 
 #drop-div {

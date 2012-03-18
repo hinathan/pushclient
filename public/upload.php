@@ -12,6 +12,10 @@ while(fwrite($wfh,fread($rfh,8096))) {
 }
 fclose($wfh);
 fclose($rfh);
+
+$sha = substr(trim(`sha1sum $tmpfile`),0,6);
+$id = $sha . "-" . date('YmdHis');
+
 $tag = sha1(time());
 if(preg_match('/\.pdf$/',$fn)) {
 	$activity = 'pdftoocrpdf';
@@ -19,12 +23,15 @@ if(preg_match('/\.pdf$/',$fn)) {
 } else if(preg_match('/\.key$/',$fn)) {
 	$activity = 'keynotetopdf';
 	$type = "application/octet-stream";
+} else if(preg_match('/\.pages$/',$fn)) {
+	$activity = 'pagestopdf';
+	$type = "application/octet-stream";
 } else {
 	unlink($tmpfile);
 	throw new Exception("Unknown file type");
 }
 
-$outfile = __DIR__ . '/input/' . time() . '-' . basename($fn);
+$outfile = __DIR__ . '/input/' . $id . '-' . basename($fn);
 rename($tmpfile,$outfile);
 $info = array('saved'=>basename($outfile),'type'=>$type,'size'=>$sz);
 print json_encode($info);

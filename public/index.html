@@ -1,145 +1,104 @@
-<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" title="no title" charset="utf-8">
-<script src="/vendor/jquery.min.js" type="text/javascript" language="javascript" charset="utf-8"></script>
-<script src="/vendor/pushstream.js" type="text/javascript" language="javascript" charset="utf-8"></script>
-<script src="/vendor/jquery.dnd-file-upload.js" type="text/javascript" language="javascript" charset="utf-8"></script>
-<script src="/vendor/jquery.client.js" type="text/javascript" language="javascript" charset="utf-8"></script>
-<script src="/vendor/jquery.progressbar.js" type="text/javascript" language="javascript" charset="utf-8"></script>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>CATT Client Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CATT client">
+    <meta name="author" content="Nathan Schmidt">
+    <script src="assets/js/jquery.js"></script>
 
-<div id="log"></div>
+    <!-- Le styles -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
+    <link href="assets/css/docs.css" rel="stylesheet">
 
-<script type="text/javascript">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
-PushStream.LOG_LEVEL = 'error';
-var pushstream = new PushStream({
-	host: window.location.hostname,
-	port: window.location.port,
-	//	modes: "websockets|eventsource|stream",
-	modes: "eventsource|longpolling",
-});
-pushstream.onrawmessage = function(event) {
-	$('#log').append('<b>' + event.message + '</b> ' +  JSON.stringify(event) + '<br>')
-	$("#log").prop('scrollTop',$("#log").prop("scrollHeight") + 100);
-	
-	
-	if(event.message == 'output-delivered') {
-		if(event.done_url.match(/pdf$/)) {
-			var iframe = $('<iframe>').attr('src',event.done_url).css({width:'100%',height:'400px'})
-			$('#results').append(iframe)
-		} else if(event.done_url.match(/jpg$/)) {
-			var img = $('<img>').attr('src',event.done_url)
-			$('#results').append(img)
-		}
-	}
-}
-pushstream.onstatuschange = _statuschanged;
-function _statuschanged(state) {
-};
+    <!-- Le fav and touch icons -->
+<!--
+    <link rel="shortcut icon" href="assets/ico/favicon.ico">
+    <link rel="apple-touch-icon" href="assets/ico/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="assets/ico/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="assets/ico/apple-touch-icon-114x114.png">
+-->
+  </head>
 
-function _connect(channel) {
-	pushstream.removeAllChannels();
-	try {
-		pushstream.addChannel(channel);
-		pushstream.connect();
-	} catch(e) {
-		alert(e)
-	};
-}
-</script>
+  <body data-spy="scroll" data-target=".subnav" data-offset="50" class="index">
 
-<div id="drop-div" class="droppable">
-	<span>Drop a PDF or Keynote file here! </span>
-	<div id="document"></div>
-	<div id="drop-info"></div>
+
+  <!-- Navbar
+    ================================================== -->
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="./index.html">CATT Client demonstrator</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="active">
+                <a href="./index.html">You are here</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+<!-- Masthead
+================================================== -->
+
+<div class="row">
+	<hr class="soften" id="here">
 </div>
 
-<input type="button" name="newjob" value="newjob" id="newjob">
-
-<script type="text/javascript">
-
-function guidGenerator() {
-	var S4 = function() {
-		return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-	};
-	return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
-}
-
-var ref = guidGenerator()
-
-$(function() {
-	var type = 'reverse';
-	_connect(ref)
-	$('#newjob').on('click',function() {
-		$.ajax({
-			url:'/ajaxnew.php',
-			type:'POST',
-			data:{ref:ref,type:type},
-			success:function(data) { console.log('ajax-success');console.log(data); },
-			error:function(data) { console.log('ajax-error');console.log(data); },
-		})
-	})
-})
-</script>
-
-
- <script>
-$.fn.dropzone.uploadStarted = function(fileIndex, file) {
-	// upload of file with given index has started
-	$('#drop-div').removeClass('hovered')
-	$('#drop-div').removeClass('droppable')
-	$('#drop-info').html('uploading ' + escape(file.name) + '<div><div id="progressbar"></div></div>')
-	$('#progressbar').reportprogress(0);
-}
-$.fn.dropzone.uploadFinished = function(fileIndex, file, time) {
-    // upload of file with given index has finished; upload took *time* mili seconds
-	$('#drop-div').addClass('droppable')
-	$('#drop-info').html('uploaded ' + escape(file.name))
-}
-$.fn.dropzone.fileUploadProgressUpdated = function(fileIndex, file, newProgress) {
-	// progress of given file has changed to *newProgress* percent
-	$('#progressbar').reportprogress(newProgress);
-}
-$.fn.dropzone.uploadResponse = function(xhr) {
-	var response = jQuery.parseJSON(xhr.response)
+<div class="row">
+	<div id="drop-div" class="droppable">
+		<span>Drop a PDF, Pages or Keynote file here! </span>
+		<div id="document"></div>
+		<div id="drop-info"></div>
+	</div>
 	
-	var input_url = null
-	var done_url = null
-	var transform = null
-	if(response.saved.match(/\.key$/)) {
-		input_url = 'http://push.lensu.com/input/' + response.saved
-		done_url = 'http://push.lensu.com/output/' +  response.saved + '.key.jpg'
-		transform = 'keynotetojpg'
-		do_transform(input_url,done_url,transform)
-		input_url = 'http://push.lensu.com/input/' + response.saved
-		done_url = 'http://push.lensu.com/output/' +  response.saved + '.key.pdf'
-		transform = 'keynotetopdf'
-		do_transform(input_url,done_url,transform)
-	} else if(response.saved.match(/\.pdf$/)) {
-			input_url = 'http://push.lensu.com/input/' + response.saved
-			done_url = 'http://push.lensu.com/output/' +  response.saved + '.ocr.pdf'
-			transform = 'pdftoocrpdf'
-			do_transform(input_url,done_url,transform)
-		}
+	<div class="span12">
+		<div id="results">
+		</div>
+	</div>
 	
-}
-function do_transform(input_url,done_url,transform) {
-	$.ajax({
-		url:'/ajaxnew.php',
-		'type':'POST',
-		data:{ref:ref,type:transform,input_url:input_url,done_url:done_url},
-		success:function(data) { console.log("posted to ajaxnew"); console.log(data) },
-		error:function(data) { console.log("error from ajaxnew "); console.log(data) },
-	})
-}
+</div>
 
-$(function(){
-	$('#drop-div').on('dragenter',function() { $('#drop-div').addClass('hovered') })
-	$('#drop-div').on('dragleave',function() { $('#drop-div').removeClass('hovered') })
-	$("#drop-div").dropzone(
-		{
-			url : '/upload.php?ref=' + ref,
-		}
-	)
-})
-</script>
+     <!-- Footer
+      ================================================== -->
+      <footer class="footer">
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p>Site built with Bootstrap@Twitter.</p>
+      </footer>
 
-<div id="results"></div>
+    </div><!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="assets/js/google-code-prettify/prettify.js"></script>
+	<script src="assets/js/application.js"></script>
+	<script src="assets/js/application-dnd.js"></script>
+	<script src="assets/js/application-pushstream.js"></script>
+
+<!--<script src="/vendor/jquery.min.js" type="text/javascript" language="javascript" charset="utf-8"></script>-->
+	<script src="/vendor/pushstream.js" type="text/javascript" language="javascript" charset="utf-8"></script>
+	<script src="/vendor/jquery.dnd-file-upload.js" type="text/javascript" language="javascript" charset="utf-8"></script>
+	<script src="/vendor/jquery.client.js" type="text/javascript" language="javascript" charset="utf-8"></script>
+	<script src="/vendor/jquery.progressbar.js" type="text/javascript" language="javascript" charset="utf-8"></script>
+
+
+  </body>
+</html>

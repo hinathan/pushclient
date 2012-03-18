@@ -19,11 +19,6 @@ $base = 'http://' . $_SERVER['HTTP_HOST'];
 $id = sha1(rand());
 
 
-$input = 'https://s3.amazonaws.com/x-private-test/test.key';
-//$output = s3obj()->get_object_url('x-private-test','output-' . time() . '.txt',time() + 3600,array('method'=>'POST'));
-//$output = s3obj()->get_object_url('x-af9804129-pub','output-' . time() . '.txt',time() + 3600,array(
-$output = 'http://s3.amazonaws.com/x-af9804129-pub/output-' . time() . '.txt';
-
 $info = array(
 	      'input_url'=>$base . "/vendor.php?id=$id&ref=$ref",
 	      'done_url'=>$base . "/done.php?id=$id&ref=$ref",
@@ -38,8 +33,6 @@ foreach($info as $key=>$value) {
 		$info[$key] = stripslashes($_POST[$key]);
 	}
 }
-
-#$info['done_url'] = $output;
 
 $post_to = 'https://convertallthethings.com/api/v1/createjob';
 $ch = curl_init($post_to);
