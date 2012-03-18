@@ -1,7 +1,5 @@
 <?php
 
-require_once('s3-shim.php');
-
 if(!isset($_POST['type'])) {
   header("HTTP/1.1 400 Invalid Input Missing type");
   exit;

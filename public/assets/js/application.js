@@ -42,6 +42,17 @@ $(function(){
 				$('#'+event.transform).find('.cola').append(link)
 			}
 			$('#'+event.transform).find('.progress').parent().hide()
+			var canreset = true
+			$('.progress').each(function(i,e) {
+				if($(e).is(':visible')) {
+					canreset = false
+				}
+			})
+			if(canreset) {
+				$('#reset').removeClass('hidden')
+			} else {
+				$('#reset').addClass('hidden')
+			}
 		}
 
 	}
