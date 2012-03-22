@@ -4,13 +4,15 @@ $(function() {
 		// upload of file with given index has started
 		$('#drop-div').removeClass('hovered')
 		$('#drop-div').removeClass('droppable')
-		$('#drop-info').html('uploading ' + escape(file.name) + '<div><div id="progressbar"></div></div>')
+		var fnsafe = file.name.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+		$('#drop-info').html('uploading ' + fnsafe + '<div><div id="progressbar"></div></div>')
 		$('#progressbar').reportprogress(0);
 	}
 	$.fn.dropzone.uploadFinished = function(fileIndex, file, time) {
 		// upload of file with given index has finished; upload took *time* mili seconds
 		$('#drop-div').addClass('droppable')
-		$('#drop-info').html('uploaded ' + escape(file.name))
+		var fnsafe = file.name.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+		$('#drop-info').html('uploaded ' + fnsafe)
 		$('#drop-div').addClass('upload-wait-response')
 	}
 	$.fn.dropzone.fileUploadProgressUpdated = function(fileIndex, file, newProgress) {
@@ -20,6 +22,7 @@ $(function() {
 	$.fn.dropzone.uploadResponse = function(xhr) {
 		var response = jQuery.parseJSON(xhr.response)
 		window.uploadComplete(response)
+		$('#drop-info').html('')
 		$('#drop-div').removeClass('upload-wait-response')
 	}
 

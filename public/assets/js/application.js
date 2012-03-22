@@ -1,6 +1,6 @@
 $(function(){
 	window.prettyPrint && prettyPrint()
-	var template = '<div class="row" id="{{}}">	<div class="span6 cola rrec"></div><div class="span6 colc rrec"><table><thead><tr><td>Elapsed</td><td>Type</td><td>Message</td></tr></thead></table></div></div>'
+	var template = '<div class="row transforminfo" id="{{}}">	<div class="span6 cola rrec"></div><div class="span6 colc rrec"><table><thead><tr><td>Elapsed</td><td>Type</td><td>Message</td></tr></thead></table></div></div>'
 
 	function addLogRow(id) {
 		$('#here').after(template.replace('{{}}',id))
@@ -120,7 +120,7 @@ $(function(){
 
 
 	$('#reset').on('click',function() {
-		  $('#here').siblings().find('div').each(function(i,e) {
+		 $('.transforminfo').each(function(i,e) {
 	          var el = $(e)
 		  el.slideUp(500,function() { el&&el.remove() })
 		})
