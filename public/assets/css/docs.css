@@ -884,3 +884,9 @@ form.well {
 .navbar-fixed-top .brand { 
   color:#ccc;
  }
+
+@media (min-width: 980px) {
+  div.container div.row {
+    padding-top:40px;
+ }
+}
