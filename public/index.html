@@ -11,7 +11,6 @@
     <!-- Le styles -->
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-    <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
     <link href="assets/css/docs.css" rel="stylesheet">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -19,13 +18,6 @@
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <!-- Le fav and touch icons -->
-<!--
-    <link rel="shortcut icon" href="assets/ico/favicon.ico">
-    <link rel="apple-touch-icon" href="assets/ico/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="assets/ico/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="assets/ico/apple-touch-icon-114x114.png">
--->
   </head>
 
   <body data-spy="scroll" data-target=".subnav" data-offset="50" class="index">
@@ -59,13 +51,15 @@
 ================================================== -->
 
 <div class="row">
-	<input type="button" id="reset" class="hidden" value="Reset" />
+	<div class="span12"><h3>CATT Client demonstrator</h3><p>This simple website shows the response performance and demonstrates the output from the Convert All The Things technology preview. It uses the standard API to initiate a conversion and acts as the input source and output sink handler for the API. This is necessary since the CATT API is inherently asynchronous &mdash; it's not 100% assured that a conversion will complete immediately so the API takes a destination URL as a required argument. Once our system has completed the requested document transform, we POST the results to the URL your client specified.</p></div>
+	<div class="span12 hidden" id="explain"><h3>What's happening?</h3><p>Some preview elements can be readily extracted with our own custom toolchain. However, a full-quality PDF which retains all of the formatting of the original document requires using the native applications on their native platform. In most cases we can quickly generate a small thumbnail of the document. The full PDF takes a few seconds more.</p><p><input type="button" id="reset" class="hidden" value="Click to upload another document" /></p>
+</div>
 	<hr class="soften" id="here">
 </div>
 
 <div class="row">
 	<div id="drop-div" class="droppable">
-		<span>Drop a PDF, Pages or Keynote file here! </span>
+		<span>Drop an iWork Pages or Keynote file here</span>
 		<div id="document"></div>
 		<div id="drop-info"></div>
 	</div>
@@ -81,7 +75,6 @@
       ================================================== -->
       <footer class="footer">
         <p class="pull-right"><a href="#">Back to top</a></p>
-        <p>Site built with Bootstrap@Twitter.</p>
       </footer>
 
     </div><!-- /container -->
@@ -89,12 +82,10 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="assets/js/google-code-prettify/prettify.js"></script>
 	<script src="assets/js/application.js"></script>
 	<script src="assets/js/application-dnd.js"></script>
 	<script src="assets/js/application-pushstream.js"></script>
 
-<!--<script src="/vendor/jquery.min.js" type="text/javascript" language="javascript" charset="utf-8"></script>-->
 	<script src="/vendor/pushstream.js" type="text/javascript" language="javascript" charset="utf-8"></script>
 	<script src="/vendor/jquery.dnd-file-upload.js" type="text/javascript" language="javascript" charset="utf-8"></script>
 	<script src="/vendor/jquery.client.js" type="text/javascript" language="javascript" charset="utf-8"></script>

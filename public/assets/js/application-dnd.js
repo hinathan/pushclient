@@ -11,6 +11,7 @@ $(function() {
 		// upload of file with given index has finished; upload took *time* mili seconds
 		$('#drop-div').addClass('droppable')
 		$('#drop-info').html('uploaded ' + escape(file.name))
+		$('#drop-div').addClass('upload-wait-response')
 	}
 	$.fn.dropzone.fileUploadProgressUpdated = function(fileIndex, file, newProgress) {
 		// progress of given file has changed to *newProgress* percent
@@ -19,6 +20,7 @@ $(function() {
 	$.fn.dropzone.uploadResponse = function(xhr) {
 		var response = jQuery.parseJSON(xhr.response)
 		window.uploadComplete(response)
+		$('#drop-div').removeClass('upload-wait-response')
 	}
 
 	$('#drop-div').on('dragenter',function() { $('#drop-div').addClass('hovered') })

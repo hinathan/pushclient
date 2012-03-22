@@ -1,2 +1,5 @@
 *~
 conf/*.json
+input/
+output/
+parked/

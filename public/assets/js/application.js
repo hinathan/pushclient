@@ -95,6 +95,9 @@ $(function(){
 		}
 		if(transform) {
 			$('#drop-div').hide()
+		        $('#explain').slideDown(1000)
+			$('#explain').removeClass('hidden')
+
 		}
 	}
 
@@ -116,4 +119,13 @@ $(function(){
 	}
 
 
+	$('#reset').on('click',function() {
+		  $('#here').siblings().find('div').each(function(i,e) {
+	          var el = $(e)
+		  el.slideUp(500,function() { el&&el.remove() })
+		})
+		setTimeout(function() { $('#drop-div').fadeIn(100) },600)
+		  $('#reset').addClass('hidden')
+		    $('#explain').slideUp(1000)
+	})
 })

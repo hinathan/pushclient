@@ -826,3 +826,61 @@ form.well {
 	padding-left:4px;
 	padding-right:4px;
 }
+
+
+#drop-div { 
+  width: 300px;
+  border: 2px dotted black;
+  background-color: rgba(127,127,127,.5);
+  color: black;
+  text-align: center;
+  padding: 10px 0;
+  border-radius: 5px;
+  transition:background-color 100ms linear;
+  -moz-transition:background-color 100ms linear;
+  -webkit-transition:background-color 100ms linear;
+}
+#drop-div.droppable { 
+  background-color: #ccc;
+}
+
+#drop-div.hovered { 
+  background-color: green;
+}
+#drop-div.upload-wait-response { 
+  background-color:#000;
+}
+
+/* progress bar container */
+#progressbar { 
+  border: 1px solid black;
+  width: 100%;
+  height: 20px;
+  position: relative;
+  color: black;
+  text-align:center;
+}
+/* color bar */
+#progressbar div.progress { 
+  position: absolute;
+  width: 0;
+  height: 100%;
+  overflow: hidden;
+  background-color: #7F007F;
+}
+/* text on bar */
+#progressbar div.progress .text { 
+  position: absolute;
+  text-align: center;
+  color: white;
+}
+/* text off bar */
+#progressbar div.text { 
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+.navbar-fixed-top .brand { 
+  color:#ccc;
+ }
